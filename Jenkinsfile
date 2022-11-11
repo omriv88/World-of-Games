@@ -14,6 +14,7 @@ pipeline {
         }
                 stage('run') {
             steps {
+                sh 'cd /root/workspace/linux-test/World-of-Games/'
                 sh 'docker-compose up'
             }
         }
