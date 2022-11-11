@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent {label 'linux_label'}
 
     stages {
         stage('Checkout') {
@@ -14,7 +14,7 @@ pipeline {
         }
                 stage('run') {
             steps {
-                sh 'docker run -d -p 8777:5000 flask_score_app'
+                sh 'docker-compose up'
             }
         }
                 stage('Test') {
