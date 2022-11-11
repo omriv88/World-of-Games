@@ -14,8 +14,7 @@ pipeline {
         }
                 stage('run') {
             steps {
-                sh 'cd /root/workspace/linux-test/World-of-Games/'
-                sh 'docker-compose up'
+                sh 'docker-compose -f /root/workspace/linux-test/World-of-Games/docker-compose.yaml up'
             }
         }
                 stage('Test') {
