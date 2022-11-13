@@ -1,6 +1,6 @@
 version: "3.3"
 services:
   flask_app_web:
-    image: flask_score_app
+    image: omriv/flask_score_app:latest
     ports:
       - "8777:5000"
