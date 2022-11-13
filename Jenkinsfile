@@ -9,7 +9,7 @@ pipeline {
         }
                 stage('Build') {
             steps {
-                sh 'docker build -t flask_score_app /root/workspace/linux-test/World-of-Games/'
+                sh 'docker build -t omriv/flask_score_app:latest /root/workspace/linux-test/World-of-Games/'
             }
         }
                 stage('run') {
@@ -22,10 +22,14 @@ pipeline {
                 sh 'pwd'
             }
         }
+                stage('Finalize-login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
                 stage('Finalize') {
             steps {
-                sh 'docker commit b085b49dccd2 omriv/flask_score_app'
-                sh 'docker image push omriv/flask_score_app:tag'
+                sh 'docker push omriv/flask_score_app:latest'
             }
         }
     }
