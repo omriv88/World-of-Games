@@ -5,29 +5,31 @@ pipeline {
     }
     
     stages {
-        stage('Checkout - Check the Ripository') {
+        stage('Checkout-check the Ripository') {
             steps {
                 sh 'git clone https://github.com/omriv88/World-of-Games.git'
                 sh 'ls -l'
             }
         }
-                stage('Build - Build The APP') {
+                stage('Build-Build The APP') {
             steps {
                 sh 'docker build -t omriv/flask_score_app:latest /root/workspace/linux-test/World-of-Games/'
             }
         }
-                stage('Run - Run The APP') {
+                stage('Run-Run The APP') {
             steps {
                 sh 'docker-compose -f /root/workspace/linux-test/World-of-Games/docker-compose.yaml up --build -d '
                 sh 'docker ps'
             }
         }
-                stage('Test - Test The APP With Selenium') {
+                stage('Test-Test The APP With Selenium') {
+                    agent {label 'label_local_pc'}
             steps {
-                sh 'env'
+                git branch: 'main', url: 'https://github.com/omriv88/World-of-Games.git'
+                bat 'python e2e.py'
             }
         }
-                stage('Finalize - Push To DockerHub - Login') {
+                stage('Finalize-DockerHub') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
